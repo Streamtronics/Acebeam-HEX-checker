@@ -1,0 +1,7 @@
+# Firmware dumps are never published - only their fingerprints in firmware_db.txt
+References/
+*.hex
+
+# Build output (recreate with update_database.bat)
+build/
+dist/

@@ -1,0 +1,13 @@
+# Acebeam HEX checker - reference firmware fingerprints
+# format 1
+# <sha256 of program area>  <reference name>
+# Entries are only ever appended by update_database.bat; edit names by hand if needed.
+2e0d02543faa7cbfd34152437eb40e826099499f65c2d7b84cb0c30c52c3dd57  K1_Streamer_SMD
+998b2dc2bfc0b37e261b8fd39e7553b344534d35431a7a663cce58c293cd0e25  K1_Streamer_THT
+4c3ad74c3393eff3bd537209df322c507bd9ecaf43a8fdb161f0560a11e80a22  M1_Streamer
+af100c188080a387a65d07d6c2387ab933c2226e90ccf8735d33b6224434e546  M2-X_Streamer
+2ee2c58c8ef68f24e66bf82bc7bd5bc7ac026797e89a2a53a5cd1ffa50a99ba8  PT20_Streamer
+c3d2ac183c845311fbca9bfc741d27eb5a54e97e58b8f3b9d9116d6a150b9f30  UC25_Streamer_Class1
+00316393ffa81a01181d581c282b640ea3f8c1555b721cf158ac66236056d8b4  UC3A_Streamer
+8896e6ee338f3fee7cbb842a58edccf848ccee14c4c307e3df496ba5643002ab  X35_Streamer_v1
+bc2ff87e18390fc46ac640a000ae616e33beae2a8924b0305884f7936216b9e0  X35_Streamer_v2
