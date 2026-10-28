@@ -16,7 +16,32 @@ static class Checker
     static int Main(string[] args)
     {
         Application.EnableVisualStyles();
+        using (Form owner = CreateOwner())
+            return Run(args, owner);
+    }
 
+    // Invisible window that owns the file picker and the result box. Without it the process has no
+    // window between closing the picker and showing the result, Windows hands the focus back to
+    // Explorer/PowerShell, and the result box ends up behind it. It sits on the screen under the mouse,
+    // so on multi-monitor setups both dialogs open on the screen the user is working on.
+    static Form CreateOwner()
+    {
+        Form f = new Form();
+        f.Text = Title;
+        f.FormBorderStyle = FormBorderStyle.None;
+        f.ShowInTaskbar = true;
+        f.Opacity = 0;
+        f.StartPosition = FormStartPosition.Manual;
+        f.Size = new System.Drawing.Size(1, 1);
+        System.Drawing.Rectangle area = Screen.FromPoint(Cursor.Position).WorkingArea;
+        f.Location = new System.Drawing.Point(area.Left + area.Width / 2, area.Top + area.Height / 2);
+        f.Show();
+        f.Activate();
+        return f;
+    }
+
+    static int Run(string[] args, Form owner)
+    {
         FirmwareDb db;
         try
         {
@@ -24,7 +49,7 @@ static class Checker
         }
         catch (Exception ex)
         {
-            MessageBox.Show("The firmware database inside this program is damaged:\n" + ex.Message,
+            MessageBox.Show(owner, "The firmware database inside this program is damaged:\n" + ex.Message,
                 Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             return 3;
         }
@@ -37,7 +62,7 @@ static class Checker
                 dlg.Title = "Select a dumped firmware .hex file";
                 dlg.Filter = "Intel HEX files (*.hex)|*.hex|All files (*.*)|*.*";
                 dlg.Multiselect = true;
-                if (dlg.ShowDialog() != DialogResult.OK) return 0;
+                if (dlg.ShowDialog(owner) != DialogResult.OK) return 0;
                 files.AddRange(dlg.FileNames);
             }
         }
@@ -80,7 +105,7 @@ static class Checker
         MessageBoxIcon icon = anyError ? MessageBoxIcon.Error
                             : anyMatch ? MessageBoxIcon.Information
                             : MessageBoxIcon.Warning;
-        MessageBox.Show(msg.ToString(), Title, MessageBoxButtons.OK, icon);
+        MessageBox.Show(owner, msg.ToString(), Title, MessageBoxButtons.OK, icon);
         return anyError ? 2 : anyMatch ? 0 : 1;
     }
 
